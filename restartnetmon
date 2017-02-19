@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ps aux | grep netmon | grep -v restartnetmon | awk '{print $2}' | sudo xargs kill -9
+
+sudo nohup bash /home/swapnesh/Programs/Scripts/Shell/netmon.sh & disown 
+

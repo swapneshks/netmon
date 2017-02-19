@@ -1,0 +1,36 @@
+#!/bin/bash
+
+filepath="/home/swapnesh/Logs/Net Usage/"
+filename=$(date -R | awk '{print "du" $2 $3 $4 ".txt"}')
+
+warnings=()
+warning_step=200
+
+while true
+do
+	filename=$(date -R | awk '{print "du" $2 $3 $4 ".txt"}')
+
+	if [ -e "$filepath${filename}" ]; then
+		dat_inter=$(tail -n2 "$filepath${filename}" | head -n1)
+		dat_intra=$(tail -n1 "$filepath${filename}")
+	else
+		dat_inter=0
+		dat_intra=0
+		warnings=()
+	fi
+
+	warning_level=$(printf "$dat_inter $warning_step" | awk '{printf ("%f", $1/$2)}' | sed "s/\..*//")
+		
+	if [ -z ${warnings[$warning_level]} ] && [ $warning_level -ne 0 ]; then
+		warnings[warning_level]=1
+		warning_data=$(echo "$warning_level*$warning_step" | bc)
+		zenity --warning --width=150 --height=20 --title="WARNING : Internet Usage" --text="Exceeded $warning_data MB." &
+		
+#		
+#		xargs -I '$' zenity --warning --title="WARNING : Internet Usage" --text="Exceeded $ MB." &
+#		
+	fi
+
+	sleep 3
+
+done

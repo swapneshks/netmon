@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps aux | grep netmon | grep -v killnetmon | awk '{print $2}' | sudo xargs kill -9
+

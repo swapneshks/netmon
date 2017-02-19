@@ -1,0 +1,13 @@
+#!/bin/bash
+
+path="/home/swapnesh/Logs/Net Usage/"
+filename=$(date -R | awk '{print "du" $2 $3 $4 ".txt"}')
+
+if [ -e "$path${filename}" ]; then
+	printf "\nData usage as per "
+	head -n1 "$path${filename}"
+	tail -n2 "$path${filename}" | head -n1 | xargs printf "\nInternet : %s MB"
+	tail -n1 "$path${filename}" | xargs printf "\nIntranet : %s MB\n\n"
+else
+	printf "\nData usage summary for today does not exist.\n\n"
+fi

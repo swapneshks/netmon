@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo echo ""
+sudo nohup bash /home/swapnesh/Programs/Scripts/Shell/netmon.sh & disown
+

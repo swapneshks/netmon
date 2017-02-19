@@ -1,0 +1,15 @@
+#!/bin/bash
+
+while true
+do
+	nethogs_stat=$(ps aux | grep nethogs | grep -v grep | grep -v chk | awk {'print $2'} | xargs -I $ ps -p $ -o etime | head -n2 | tail -n1 | cut -d: -f2 | xargs)
+
+	nethogs_stat=$(($nethogs_stat + 0))
+
+	if [[ ! -z $nethogs_stat ]] && [[ $nethogs_stat > 3 ]]; then
+		bash /home/swapnesh/Programs/Scripts/Shell/restartnetmon
+	fi
+
+	sleep 3
+done
+
